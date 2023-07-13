@@ -9,6 +9,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
     PortfolioComponent,
     SkillsComponent,
     ProjectsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
