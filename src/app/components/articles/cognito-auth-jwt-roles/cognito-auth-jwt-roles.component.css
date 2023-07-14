@@ -9,3 +9,7 @@
     border: 0;
     color: white;
 }
+
+code {
+    border-radius: 8px;
+}

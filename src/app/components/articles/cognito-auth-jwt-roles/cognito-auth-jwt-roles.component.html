@@ -19,8 +19,7 @@
                     <div id="list-example" class="list-group text-bg-dark">
                         <a class="list-group-item list-group-item-action" href="#overview">overview</a>
                         <a class="list-group-item list-group-item-action" href="#getting_started">getting started</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                        <a class="list-group-item list-group-item-action" href="#cognito-user-pool">cognito user pool</a>
                     </div>
                 </div>
             </div>
@@ -33,26 +32,126 @@
                 </a>
             </header>
             <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-                <div id="overview" class="p-5 mb-3 rounded-3 text-bg-dark">
+                <div id="overview" class="px-5 mb-3 rounded-3 text-bg-dark">
                     <div class="container-fluid py-5 ">
-                        <h3>I'm a Software Developer</h3>
+                        <h3>Overview</h3>
                         <p class="col-md-12 fs-5">
-                            passionate and skilled in backend software development. With a strong foundation
-                            in Python programming and a knack for problem-solving, I thrive in designing
-                            and implementing robust solutions to complex technical challenges.
+                            Amazon Cognito User Pools is a fully managed use
+                            directory service provided by Amazon Web Services (AWS),
+                            it allows you to easily implement user authentication
+                            and management functionalities in their applications
+                            without having to build and maintain a custom user directory
+                            system. This service is also highly customizable, a property
+                            that we will explore in this post by implementing an
+                            authorization system based on JWTs and builted with Cognito
+                            User Pools, as follows:
                         </p>
-                        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+                        <img
+                            class="pb-3"
+                            src="assets/images/cognito-auth-jwt-roles.png"
+                            width="100%"
+                            style="border-radius: 8px;"
+                        >
+                        <p class="col-md-12 fs-5">In order to deploy the previus arquitecture a Cognito User Pool,
+                            a Cognito User Client, an Http API getway, and a Pre-Token lamba
+                            trigger are required, a built proccess that will be explored next.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            In case you want to avoid using Cloud Formation or the serverless
+                            framework you can refer to <a href="https://aws.amazon.com/es/blogs/mobile/how-to-use-cognito-pre-token-generators-to-customize-claims-in-id-tokens/">this</a>
+                            guide that use the AWS website platform.
+                        </p>
                     </div>
                 </div>
-                <div id="getting_started" class="p-5 mb-3 rounded-3 text-bg-dark">
+                <div id="getting_started" class="px-5 mb-3 rounded-3 text-bg-dark">
                     <div class="container-fluid py-5 ">
-                        <h3>I'm a Software Developer</h3>
+                        <h3>Getting started</h3>
                         <p class="col-md-12 fs-5">
-                            passionate and skilled in backend software development. With a strong foundation
-                            in Python programming and a knack for problem-solving, I thrive in designing
-                            and implementing robust solutions to complex technical challenges.
+                            To begin we need to establish a developer environment that connect
+                            with AWS in the cloud, in order to do this we will need to
+                            configure the AWS credentials, a process that you can complete following
+                            <a href="">this</a> guide.
                         </p>
-                        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+                        <p class="col-md-12 fs-5">
+                            Next we will need to install Serverless Framework via NPM as follows:
+                        </p>
+                        <pre><code [highlight]="code" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            To create your first project (known as a Serverless Framework "Service"),
+                            run the serverless command below, then follow the prompts.
+                        </p>
+                        <pre><code [highlight]="code1" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Once the project is successfully created you should have the following
+                            directory tree in your project folder:
+                        </p>
+                        <pre><code [highlight]="code2" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            And the following content in the <i>serverless.yml</i> file
+                        </p>
+                        <pre><code [highlight]="code3" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                    </div>
+                </div>
+                <div id="cognito-user-pool" class="px-5 mb-3 rounded-3 text-bg-dark">
+                    <div class="container-fluid py-5 ">
+                        <h3>Cognito User Pool</h3>
+                        <p class="col-md-12 fs-5">
+                            After the correct initialization of the project we can define a 
+                            Cognito User Pool resource in the resources section of the 
+                            serverless.yml file, as follow:
+                        </p>
+                        <pre><code [highlight]="code4" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            In this case and using the <i>UsernameAttributes</i> parameter
+                            we define a Cognito User Pool with the email parameter as username,
+                            in addition to this and using the <i>AutoVerifiedAttributes</i> parameter we establish
+                            that the user email will be validated by AWS sending an otp message through
+                            the SMS service, massage that can be customized by the <i>EmailVerificationMessage</i>
+                            and <i>EmailVerificationSubject</i> parameters, and lastly the password policy can be adjusted
+                            to  the necessities of your projects using the <i>PasswordPolicy</i> parameter, keep in mind that
+                            a strong password policy that validates a minimun of 8 characters, an uppercase letter,
+                            a lowercase letter, a number and a special character is recommend and encouraged.
+
+                            To see more details about the Cognito User Pool parameters you can check the oficial documentation
+                            <a href="">here</a>
+
+                        </p>
+                    </div>
+                </div>
+                <div id="cognito-user-pool" class="px-5 mb-3 rounded-3 text-bg-dark">
+                    <div class="container-fluid py-5 ">
+                        <h3>Cognito User Client</h3>
+                        <p class="col-md-12 fs-5">
+                            Once the Cognito User Pool is defined, we need a service
+                            that integrates with the user pool to authenticate and authorize user.
+                            this entity is called Cognito User Client and facilitates the
+                            communication process by enabling the application to 
+                            perform the complexity of user management to AWS. this service can be
+                            defined as follows:
+                        </p>
+                        <pre><code [highlight]="code5" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Using the previus code and the <i>UserPoolId</i> parameter we can
+                            relate the Cognito User Pool definition and the Cognito User Client definition.
+                            Also we can define the redirection urls for the completition of the registry
+                            flow and the logout flow using the parameters <i>CallbackURLs</i> and the 
+                            <i>LogoutURLs</i> respectively, take into consideration that this urls 
+                            do not need to aim to a valid url, in this case we will use the www.google.com route
+                            as the redirection route in both cases but you can use your own.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            In the same way we can add the <i>ALLOW_USER_SRP_AUTH</i> value
+                            to the <i>ExplicitAuthFlows</i> parameter to establish a secure way to sign in by 
+                            providing the username and password. Using this flow the user's password is never 
+                            transmitted over the network, ensuring that it remains secure even if the 
+                            communication channel is compromised, as well we can add the 
+                            <i>ALLOW_REFRESH_TOKEN_AUTH</i> value to enable authflow refresh tokens.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            There are so many parameters in this definition that it becomes difficult 
+                            to cover them all in this publication but we invite the reader to check the 
+                            oficial documentation where each and every one are descrived, <a href="">here</a>
+                        </p>
                     </div>
                 </div>
             </div>
