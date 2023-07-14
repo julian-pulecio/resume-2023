@@ -95,6 +95,23 @@ export class CognitoAuthJwtRolesComponent {
             - email
           WriteAttributes:
             - email`
+  code6 = ` resources:
+  Resources:
+    CognitoUserPool:
+      ...
+    UserPoolClient:
+      ...
+    AdminCognitoGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties:
+        GroupName: MyAdminGroup
+        UserPoolId: !Ref CognitoUserPool
+    
+    RegularCognitoGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties:
+        GroupName: MyRegularGroup
+        UserPoolId: !Ref CognitoUserPool`
 
   constructor(private hljsLoader: HighlightLoader){}
   onHighlight(e: HighlightAutoResult) {
