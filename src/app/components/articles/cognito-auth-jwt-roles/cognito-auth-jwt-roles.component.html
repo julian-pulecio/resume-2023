@@ -23,6 +23,8 @@
                         <a class="list-group-item list-group-item-action" href="#cognito-user-pool-client">cognito user pool client</a>
                         <a class="list-group-item list-group-item-action" href="#cognito-user-pool-groups">cognito user pool groups</a>
                         <a class="list-group-item list-group-item-action" href="#http-api-getway">HTTP API getway</a>
+                        <a class="list-group-item list-group-item-action" href="#lambda-functions">lambda functions</a>
+                        <a class="list-group-item list-group-item-action" href="#test">final test</a>
                     </div>
                 </div>
             </div>
@@ -93,6 +95,27 @@
                             And the following content in the <i>serverless.yml</i> file
                         </p>
                         <pre><code [highlight]="code3" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Next we will need to set up a local virtual enviroment in python
+                            to install dependencies in our project, this can be using the
+                            achieve using the following command:
+                        </p>
+                        <pre><code [highlight]="code14" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Now we can install the <i>serverless-python-requirements</i> plugin
+                            that is usefull to install the local requirements especified in the 
+                            <i>requirements.txt</i> in the lambda functions of your arquitecture
+                            as follows:
+                        </p>
+                        <pre><code [highlight]="code15" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            After that we can install the boto3 library in our project using:
+                        </p>
+                        <pre><code [highlight]="code16" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            And populate the <i>requirements.txt</i> file using:
+                        </p>
+                        <pre><code [highlight]="code17" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
                     </div>
                 </div>
                 <div id="cognito-user-pool" class="px-5 mb-3 rounded-3 text-bg-dark">
@@ -126,10 +149,10 @@
                         <h3>Cognito User Client</h3>
                         <p class="col-md-12 fs-5">
                             Once the Cognito User Pool is defined, we need a service
-                            that integrates with the user pool to authenticate and authorize user.
+                            that integrates with the user pool to authenticate and authorize users.
                             this entity is called Cognito User Client and facilitates the
                             communication process by enabling the application to 
-                            perform the complexity of user management to AWS. this service can be
+                            perform the complexity of user management to AWS. this resource can be
                             defined as follows:
                         </p>
                         <pre><code [highlight]="code5" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
@@ -153,7 +176,7 @@
                         <p class="col-md-12 fs-5">
                             There are so many parameters in this definition that it becomes difficult 
                             to cover them all in this publication but we invite the reader to check the 
-                            oficial documentation where each and every one are descrived, <a href="">here</a>
+                            oficial documentation <a href="">here</a>, where each and every one are descrived.
                         </p>
                     </div>
                 </div>
@@ -162,7 +185,7 @@
                         <h3>Cognito User Groups</h3>
                         <p class="col-md-12 fs-5">
                             Next we need to define the Cognito User Groups to
-                            categorize users and assining role based permissions
+                            categorize users and assing role based permissions
                             to them, in this case, and in behalf of simplicity,
                             we will divide the users in just two categories, admin users
                             and regular users, so we need to define two Cognito Users Pools
@@ -171,18 +194,117 @@
                         <pre><code [highlight]="code6" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
                     </div>
                 </div>
-                <div id="htt-api-getway" class="px-5 mb-3 rounded-3 text-bg-dark">
+                <div id="http-api-getway" class="px-5 mb-3 rounded-3 text-bg-dark">
                     <div class="container-fluid py-5 ">
-                        <h3>Cognito User Groups</h3>
+                        <h3>HTTP API getway</h3>
                         <p class="col-md-12 fs-5">
-                            Next we need to define the Cognito User Groups to
-                            categorize users and assining role based permissions
-                            to them, in this case, and in behalf of simplicity,
-                            we will divide the users in just two categories, admin users
-                            and regular users, so we need to define two Cognito Users Pools
-                            as follows: 
+                            Now we will focus on amazon API Gateway a fully managed service provided by AWS
+                            that enables you to create, deploy, and manage APIs. In this case
+                            we will use this service as a front-door for your backend services,
+                            allowing us to expose functionalities and data to clients securely and at scale.
+                            So in order to do this and after we have defined all the previus resources, we can use some of 
+                            the Serverless Framework features to attach an HTTP API getway
+                            instance to all the lambda functions in this projects using the provider property
+                            as follows:
                         </p>
-                        <pre><code [highlight]="code6" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <pre><code [highlight]="code7" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            In this case we use the above code to define an authorizer named "someJwtAuthorizer" for the API.
+                            An authorizer is responsible for authenticating and authorizing requests to the API. the said
+                            authorized use the <i>type</i> parameter to impllement JWTs, the <i>identitySource</i> parameter to extract 
+                            the JWT from the <i>Authorization</i> headers in each request, the <i>issuerUrl</i>
+                            parameter to relate the authorizer with the Cognito User Pool defined in the previus sections,
+                            and the <i>audience</i> parameter to relate the authorizer with the Cognito User Client also
+                            defined in the previus sections.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            In case you want to customize this definition or
+                            explore the authorizer features in the serverless framework you can refer to 
+                            <a href="">this</a> post.
+                        </p>
+                    </div>
+                </div>
+                <div id="lambda-functions" class="px-5 mb-3 rounded-3 text-bg-dark">
+                    <div class="container-fluid py-5 ">
+                        <h3>lambda functions</h3>
+                        <p class="col-md-12 fs-5">
+                            Lastly we need no set up the lambda function that customize
+                            the token generation and the lambda functions that implements all 
+                            the builded arquitecture as follows:
+                        </p>
+                        <pre><code [highlight]="code8" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            after this definition we need to go to the <i>handler.py</i> file
+                            and add the lambda function code for the Pre-Token authorization as follows:
+                        </p>
+                        <pre><code [highlight]="code9" [languages]="['python']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            This code, converts the authenticated user’s Cognito group details to be
+                            returned as the scope claim in the id_token returned by Cognito.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            Next we will add the following code that sends back the response 
+                            Hello from Admin User when the /AdminUser resource path is invoked in API Gateway.
+                        </p>
+                        <pre><code [highlight]="code10" [languages]="['python']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            And the corresponding code that and sends back the response
+                            Hello from Regular User when the /RegularUser resource path is invoked within API Gateway.
+                        </p>
+                        <pre><code [highlight]="code11" [languages]="['python']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Once everything it's set up you can deploy all the arquitecture
+                            using the following command:
+                        </p>
+                        <pre><code [highlight]="code12" [languages]="['npm']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                    </div>
+                </div>
+                <div id="test" class="px-5 mb-3 rounded-3 text-bg-dark">
+                    <div class="container-fluid py-5 ">
+                        <h3>final test</h3>
+                        <p class="col-md-12 fs-5">
+                            Now that the arquitecture is fully deployed we can create
+                            users using the AWS CLI in the commmand line as follows:
+                        </p>
+                        <pre><code [highlight]="code18" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            using the previus code we can create a two users that will
+                            be assing to their corresponding Cognito User Groups, 
+                            take into acount that the <i>USERNAME</i> attribute need to be
+                            a valid and real email becouse AWS will send an otp token
+                            to this email in order to begin the confirmation process,
+                            a process that can be complete using the following command: 
+                        </p>
+                        <pre><code [highlight]="code19" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            once the users are comfirmed in cognito users pools you can asing
+                            them to a cognito user group as follows:
+                        </p>
+                        <pre><code [highlight]="code20" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            in this case you will need to check the corresponding
+                            parameters in the AWS console, and assing the just created users
+                            to the Cognito Users Pools created in the previus sections.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            Now you can create sign-in into the application using
+                            the following command:
+                        </p>
+                        <pre><code [highlight]="code21" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            This will generate a response with the <i>IdToken</i> parameter,
+                            that can be put as the value of the <i>Authorization</i> header
+                            at the momment of sending the access requests for the endpoints
+                            in our HTTP API getway, using the following commands:    
+                        </p>
+                        <pre><code [highlight]="code22" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Finally and after consuming each and every one of this CURLs requests
+                            with each user, you should get an <i>HTTP_200_OK</i> response
+                            for the protected and unprotected route when it's requested by an
+                            <i>Admin user</i>, and a <i>HTTP_403_FORBIDDEN</i> when the regular
+                            user request on the protected route.    
+                        </p>
                     </div>
                 </div>
             </div>
