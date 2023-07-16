@@ -4,8 +4,8 @@ import { CognitoAuthJwtRolesComponent } from './components/articles/cognito-auth
 import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
-  { path:'', component: CognitoAuthJwtRolesComponent},
-  { path:'home', component: HomeComponent}
+  { path:'cognito-auth-jwt-roles', component: CognitoAuthJwtRolesComponent},
+  { path:'', component: HomeComponent}
 ];
 
 @NgModule({
