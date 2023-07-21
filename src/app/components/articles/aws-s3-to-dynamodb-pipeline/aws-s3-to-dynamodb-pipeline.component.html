@@ -55,28 +55,62 @@
             <img class="article-image mb-4" src="assets/images/aws-s3-to-dynamodb-pipeline-architecture.png"
                 width="100%" style="background-color: #0d1117; border-radius: 8px;">
             <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
-                Architecture
+                S3 bucket with SQS notification configuration in cloud formation
             </h3>
             <div class="article-section mb-4 rounded-3 text-bg-dark">
                 <div class="container-fluid">
                     <p class="col-md-12 fs-5">
-                        In order to automate the migration operation it's necessary
-                        to establish the resources that will extract, transform and load
-                        the data from a csv file a to functional DynamoDB table. In this
-                        case we will use a S3 bucket to store the said file, a SQS queue
-                        for decopuling and asyncronous processing, another SQS as a dead
-                        letter queue for error handling and troubleshooting, a lambda
-                        function for the processing of the data and a DynamoDB table as a
-                        serverless solution for storage. This is exemplified in the
-                        following AWS architecture:
+                        The first one of the resources that will be defined
+                        is the S3 bucket, that will store the csv file and comunicate
+                        the uploading event to a SQS queue. In order to do this a
+                        cloud formation set up alongside with a deployment tool
+                        as the Serverless Framework is needed. In this case
+                        we will use the features of this tool to establish the 
+                        said definition in the <i>.serverless</i> file of the project 
+                        as follows:
                     </p>
+                    <pre><code [highlight]="code1" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                    <p class="col-md-12 fs-5">
+                        As you can see the <i>NotificationConfiguration</i> and 
+                        <i>QueueConfigurations</i> params are used to add a trigger 
+                        event to the S3 bucket and relate this with an SQS
+                        queue that will be defined next:
+                    </p>
+                    <pre><code [highlight]="code2" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                    <p class="col-md-12 fs-5">
+                        Now we define two SQS queues and use the <i>RedrivePolicy</i>
+                        to establish wich one of will work as a dead letter queue 
+                        for error handling and troubleshooting and wich one will handle
+                        all the S3 events.
+                    </p>
+                    <p class="col-md-12 fs-5">
+                        Lastly we need an IAM policy that allow the resources in the arquitecture
+                        to perform actions on the SQS queues described before as follows:
+                    </p>
+                    <pre><code [highlight]="code3" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                </div>
+            </div>
+            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                Process an S3 object using boto3
+            </h3>
+            <div class="article-section mb-4 rounded-3 text-bg-dark">
+                <div class="container-fluid">
+                    <p class="col-md-12 fs-5">
+                        Now that the resources are set a function that
+                        process the csv file stored in the previusly
+                        defined S3 bucket and is triggered by the SQS
+                        queue is needed. With this in mind we can define
+                        the said function ensuring that this one have
+                        the corresponding IAM permission to perform this 
+                        actions as follows:
+                    </p>
+                    <pre><code [highlight]="code4" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
                 </div>
             </div>
             <nav class="blog-pagination" aria-label="Pagination">
                 <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
                 <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a>
             </nav>
-
         </div>
 
         <div class="col-md-4">

@@ -11,8 +11,6 @@ import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { HomeComponent } from './components/home/home.component';
-import { AwsS3ToDynamodbPipelineComponent } from './components/articles/aws-s3-to-dynamodb-pipeline/aws-s3-to-dynamodb-pipeline.component';
-
 
 
 @NgModule({
@@ -24,7 +22,6 @@ import { AwsS3ToDynamodbPipelineComponent } from './components/articles/aws-s3-t
     SkillsComponent,
     ProjectsComponent,
     HomeComponent,
-    AwsS3ToDynamodbPipelineComponent
   ],
   imports: [
     BrowserModule,
