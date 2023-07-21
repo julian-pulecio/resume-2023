@@ -4,7 +4,8 @@
             background-size:cover;
             ">
         <div class="col-lg-8 px-0">
-            <h1 class="display-4 fst-italic fw-bold">A Pipeline to create and populate Dynamodb tables using S3 events</h1>
+            <h1 class="display-4 fst-italic fw-bold">A Pipeline to create and populate Dynamodb tables using S3 events
+            </h1>
             <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and
                 efficiently about what’s most interesting in this post’s contents.</p>
             <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p>
@@ -17,10 +18,10 @@
                 Overview
             </h3>
 
-            <div class="px-5 py-2 mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid py-5 ">
+            <div class="article-section mb-4 rounded-3 text-bg-dark">
+                <div class="container-fluid">
                     <p class="col-md-12 fs-5">
-                        Most of the time we can find ourself describing 
+                        Most of the time we can find ourself describing
                         the database migration as a repetitive and monotonous
                         operation, when this involves huge amounts of data;
                         adjectives that describe a process that can be easily
@@ -33,10 +34,11 @@
                     </p>
                 </div>
             </div>
-
-            <div class="px-5 py-2 mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid py-5 ">
-                    <h3 class="fw-bold">Arquitecture</h3>
+            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                Architecture
+            </h3>
+            <div class="article-section mb-4 rounded-3 text-bg-dark">
+                <div class="container-fluid">
                     <p class="col-md-12 fs-5">
                         In order to automate the migration operation it's necessary
                         to establish the resources that will extract, transform and load
@@ -44,24 +46,32 @@
                         case we will use a S3 bucket to store the said file, a SQS queue
                         for decopuling and asyncronous processing, another SQS as a dead
                         letter queue for error handling and troubleshooting, a lambda
-                        function for the processing of the data and a DynamoDB table as a 
-                        serverless solution for storage. This is exemplified in the 
+                        function for the processing of the data and a DynamoDB table as a
+                        serverless solution for storage. This is exemplified in the
                         following AWS architecture:
                     </p>
-                    <img class="p-4" src="assets/images/aws-s3-to-dynamodb-pipeline-architecture.png" width="100%"
-                    style="background-color: #0d1117; border-radius: 8px;">
                 </div>
             </div>
-
-            <div class="px-5 py-2 mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid py-5 ">
-                    <h3 class="fw-bold">Cloud Formation</h3>
+            <img class="article-image mb-4" src="assets/images/aws-s3-to-dynamodb-pipeline-architecture.png"
+                width="100%" style="background-color: #0d1117; border-radius: 8px;">
+            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                Architecture
+            </h3>
+            <div class="article-section mb-4 rounded-3 text-bg-dark">
+                <div class="container-fluid">
                     <p class="col-md-12 fs-5">
-                    
+                        In order to automate the migration operation it's necessary
+                        to establish the resources that will extract, transform and load
+                        the data from a csv file a to functional DynamoDB table. In this
+                        case we will use a S3 bucket to store the said file, a SQS queue
+                        for decopuling and asyncronous processing, another SQS as a dead
+                        letter queue for error handling and troubleshooting, a lambda
+                        function for the processing of the data and a DynamoDB table as a
+                        serverless solution for storage. This is exemplified in the
+                        following AWS architecture:
                     </p>
                 </div>
             </div>
-
             <nav class="blog-pagination" aria-label="Pagination">
                 <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
                 <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a>
