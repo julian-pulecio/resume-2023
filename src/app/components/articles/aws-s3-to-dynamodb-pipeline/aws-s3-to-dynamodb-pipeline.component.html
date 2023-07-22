@@ -13,162 +13,144 @@
     </div>
 
     <div class="row g-5">
-        <div class="col-md-8">
-            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
-                Overview
-            </h3>
-
-            <div class="article-section mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid">
-                    <p class="col-md-12 fs-5">
-                        Most of the time we can find ourself describing
-                        the database migration as a repetitive and monotonous
-                        operation, when this involves huge amounts of data;
-                        adjectives that describe a process that can be easily
-                        automated using the serverless architecture and the event
-                        driven development. In this post we will explore the
-                        planning and resources needed to create and load
-                        a serverless database table in DynamoDB when a
-                        .csv file is uploaded in a S3 bucket. All this using Python,
-                        AWS, Cloud Formation and the Serverless Framework.
-                    </p>
-                </div>
-            </div>
-            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
-                Architecture
-            </h3>
-            <div class="article-section mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid">
-                    <p class="col-md-12 fs-5">
-                        In order to automate the migration operation it's necessary
-                        to establish the resources that will extract, transform and load
-                        the data from a csv file a to functional DynamoDB table. In this
-                        case we will use a S3 bucket to store the said file, a SQS queue
-                        for decopuling and asyncronous processing, another SQS as a dead
-                        letter queue for error handling and troubleshooting, a lambda
-                        function for the processing of the data and a DynamoDB table as a
-                        serverless solution for storage. This is exemplified in the
-                        following AWS architecture:
-                    </p>
-                </div>
-            </div>
-            <img class="article-image mb-4" src="assets/images/aws-s3-to-dynamodb-pipeline-architecture.png"
-                width="100%" style="background-color: #0d1117; border-radius: 8px;">
-            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
-                S3 bucket with SQS notification configuration in cloud formation
-            </h3>
-            <div class="article-section mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid">
-                    <p class="col-md-12 fs-5">
-                        The first one of the resources that will be defined
-                        is the S3 bucket, that will store the csv file and comunicate
-                        the uploading event to a SQS queue. In order to do this a
-                        cloud formation set up alongside with a deployment tool
-                        as the Serverless Framework is needed. In this case
-                        we will use the features of this tool to establish the 
-                        said definition in the <i>.serverless</i> file of the project 
-                        as follows:
-                    </p>
-                    <pre><code [highlight]="code1" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
-                    <p class="col-md-12 fs-5">
-                        As you can see the <i>NotificationConfiguration</i> and 
-                        <i>QueueConfigurations</i> params are used to add a trigger 
-                        event to the S3 bucket and relate this with an SQS
-                        queue that will be defined next:
-                    </p>
-                    <pre><code [highlight]="code2" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
-                    <p class="col-md-12 fs-5">
-                        Now we define two SQS queues and use the <i>RedrivePolicy</i>
-                        to establish wich one of will work as a dead letter queue 
-                        for error handling and troubleshooting and wich one will handle
-                        all the S3 events.
-                    </p>
-                    <p class="col-md-12 fs-5">
-                        Lastly we need an IAM policy that allow the resources in the arquitecture
-                        to perform actions on the SQS queues described before as follows:
-                    </p>
-                    <pre><code [highlight]="code3" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
-                </div>
-            </div>
-            <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
-                Process an S3 object using boto3
-            </h3>
-            <div class="article-section mb-4 rounded-3 text-bg-dark">
-                <div class="container-fluid">
-                    <p class="col-md-12 fs-5">
-                        Now that the resources are set a function that
-                        process the csv file stored in the previusly
-                        defined S3 bucket and is triggered by the SQS
-                        queue is needed. With this in mind we can define
-                        the said function ensuring that this one have
-                        the corresponding IAM permission to perform this 
-                        actions as follows:
-                    </p>
-                    <pre><code [highlight]="code4" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
-                </div>
-            </div>
-            <nav class="blog-pagination" aria-label="Pagination">
-                <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
-                <a class="btn btn-outline-secondary rounded-pill disabled">Newer</a>
-            </nav>
-        </div>
-
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
-                <div class="p-4 mb-3 bg-body-tertiary rounded">
+                <div class="p-4 mb-3 bg-body-tertiary rounded ">
                     <h4 class="fst-italic">About</h4>
                     <p class="mb-0">
-                        Customize this section to tell your visitors a little bit about your publication,
-                        writers, content, or something else entirely. Totally up to you.
+                        You can see the project implementation make with
+                        AWS, the serverless framework, and Python in github                   
                     </p>
+                    <button type="button" class=" my-3 col-md-12 btn btn-outline-primary">github repository</button>
                 </div>
-
                 <div>
-                    <h4 class="fst-italic">Recent posts</h4>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                                href="#">
-                                <svg class="bd-placeholder-img" width="100%" height="96"
-                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                                    <rect width="100%" height="100%" fill="#777" />
-                                </svg>
-                                <div class="col-lg-8">
-                                    <h6 class="mb-0">Example blog post title</h6>
-                                    <small class="text-body-secondary">January 15, 2023</small>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                                href="#">
-                                <svg class="bd-placeholder-img" width="100%" height="96"
-                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                                    <rect width="100%" height="100%" fill="#777" />
-                                </svg>
-                                <div class="col-lg-8">
-                                    <h6 class="mb-0">This is another blog post title</h6>
-                                    <small class="text-body-secondary">January 14, 2023</small>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                                href="#">
-                                <svg class="bd-placeholder-img" width="100%" height="96"
-                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                                    <rect width="100%" height="100%" fill="#777" />
-                                </svg>
-                                <div class="col-lg-8">
-                                    <h6 class="mb-0">Longer blog post title: This one has multiple lines!</h6>
-                                    <small class="text-body-secondary">January 13, 2023</small>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                    <h4 class="fst-italic text-white">Sections</h4>
+                    <div id="list-example" class="list-group text-bg-dark">
+                        <a class="list-group-item list-group-item-action" href="#overview">overview</a>
+                        <a class="list-group-item list-group-item-action" href="#architecture">getting started</a>
+                        <a class="list-group-item list-group-item-action" href="#s3-bucket-with-sqs">s3 bucket with sqs</a>
+                        <a class="list-group-item list-group-item-action" href="#process-s3-object">process s3 object</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                    Overview
+                </h3>
+                <div class="article-section mb-4 rounded-3 text-bg-dark" id="overview">
+                    <div class="container-fluid">
+                        <p class="col-md-12 fs-5">
+                            Most of the time we can find ourself describing
+                            the database migration as a repetitive and monotonous
+                            operation, when this involves huge amounts of data;
+                            adjectives that describe a process that can be easily
+                            automated using the serverless architecture and the event
+                            driven development. In this post we will explore the
+                            planning and resources needed to create and load
+                            a serverless database table in DynamoDB when a
+                            .csv file is uploaded in a S3 bucket. All this using Python,
+                            AWS, Cloud Formation and the Serverless Framework.
+                        </p>
+                    </div>
+                </div>
+                <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                    Architecture
+                </h3>
+                <div class="article-section mb-4 rounded-3 text-bg-dark" id="architecture">
+                    <div class="container-fluid">
+                        <p class="col-md-12 fs-5">
+                            In order to automate the migration operation it's necessary
+                            to establish the resources that will extract, transform and load
+                            the data from a csv file a to functional DynamoDB table. In this
+                            case we will use a S3 bucket to store the said file, a SQS queue
+                            for decopuling and asyncronous processing, another SQS as a dead
+                            letter queue for error handling and troubleshooting, a lambda
+                            function for the processing of the data and a DynamoDB table as a
+                            serverless solution for storage. This is exemplified in the
+                            following AWS architecture:
+                        </p>
+                    </div>
+                </div>
+                <img class="article-image mb-4" src="assets/images/aws-s3-to-dynamodb-pipeline-architecture.png"
+                    width="100%" style="background-color: #0d1117; border-radius: 8px;">
+                <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                    S3 bucket with SQS notification configuration in cloud formation
+                </h3>
+                <div class="article-section mb-4 rounded-3 text-bg-dark" id="s3-bucket-with-sqs">
+                    <div class="container-fluid">
+                        <p class="col-md-12 fs-5">
+                            The first one of the resources that will be defined
+                            is the S3 bucket, that will store the csv file and comunicate
+                            the uploading event to a SQS queue. In order to do this a
+                            cloud formation set up alongside with a deployment tool
+                            as the Serverless Framework is needed. In this case
+                            we will use the features of this tool to establish the 
+                            said definition in the <i>.serverless</i> file of the project 
+                            as follows:
+                        </p>
+                        <pre><code [highlight]="code1" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            As you can see the <i>NotificationConfiguration</i> and 
+                            <i>QueueConfigurations</i> params are used to add a trigger 
+                            event to the S3 bucket and relate this with an SQS
+                            queue that will be defined next:
+                        </p>
+                        <pre><code [highlight]="code2" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Now we define two SQS queues and use the <i>RedrivePolicy</i>
+                            to establish wich one of will work as a dead letter queue 
+                            for error handling and troubleshooting and wich one will handle
+                            all the S3 events.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            Lastly we need an IAM policy that allow the resources in the arquitecture
+                            to perform actions on the SQS queues described before as follows:
+                        </p>
+                        <pre><code [highlight]="code3" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                    </div>
+                </div>
+                <h3 class="pb-4 mb-4 fst-italic border-bottom text-white">
+                    Process an S3 object using boto3
+                </h3>
+                <div class="article-section mb-4 rounded-3 text-bg-dark" id="process-s3-object">
+                    <div class="container-fluid">
+                        <p class="col-md-12 fs-5">
+                            Now that the resources are set a function that
+                            process the csv file stored in the previusly
+                            defined S3 bucket and is triggered by the SQS
+                            queue is needed. With this in mind we can define
+                            the said function ensuring that this one have
+                            the corresponding IAM permission to perform this 
+                            actions as follows:
+                        </p>
+                        <pre><code [highlight]="code4" [languages]="['yaml']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            Next you can use the Boto3 library to handle the
+                            s3 object processing using the <i>get_object</i>
+                            function to get the file content and manage each
+                            row of this separatly as follows:
+                        </p>
+                        <pre><code [highlight]="code5" [languages]="['python']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            In the same way you can use the <i>create_table</i>
+                            function to create a DynamoDB table as follows:
+                        </p>
+                        <pre><code [highlight]="code6" [languages]="['python']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                        <p class="col-md-12 fs-5">
+                            In this example the <i>get_waiter</i> function is used
+                            to hold the execution proccess while the DynamoDB table 
+                            maintain a creating status, which it's really usefull
+                            to get a consistent behaviour in the procedure.
+                        </p>
+                        <p class="col-md-12 fs-5">
+                            Finally the <i>put_item</i> function can be used to
+                            create items based on the data, returned from the 
+                            <i>get_object</i> function descrived befored.
+                        </p>
+                        <pre><code [highlight]="code7" [languages]="['python']" (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+                    </div>
                 </div>
             </div>
         </div>

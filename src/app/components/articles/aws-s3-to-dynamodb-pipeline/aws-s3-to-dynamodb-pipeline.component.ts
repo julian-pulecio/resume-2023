@@ -93,7 +93,62 @@ export class AwsS3ToDynamodbPipelineComponent {
               Fn::GetAtt:
                 - SQSQueue
                 - Arn`
-  constructor(private hljsLoader: HighlightLoader){}
+  code5 = `  import boto3
+  client = boto3.client('s3')
+  response = client.get_object(
+    Bucket=BUCKET_NAME,
+    Key=S3_OBJECT_KEY
+  )`
+  code6 = `  import boto3
+  client = boto3.client('dynamodb')
+  client.create_table(
+    TableName=BUCKET_NAME,
+    AttributeDefinitions = [{
+        'AttributeName': 'Key',
+        'AttributeType': 'S'
+    }],
+    KeySchema = [{
+        'AttributeName': 'Key',
+        'KeyType': 'HASH'
+    }],
+    ProvisionedThroughput = {
+        'ReadCapacityUnits': 5,
+        'WriteCapacityUnits': 5
+    }
+  )
+  self.client.get_waiter('table_exists').wait(
+      TableName=BUCKET_NAME
+  )`
+  code7 = `  import boto3
+  client = boto3.client('dynamodb')
+  response = client.put_item(
+    TableName='string',
+    Item={
+        'string': {
+            'S': 'string',
+            'N': 'string',
+            'B': b'bytes',
+            'SS': [
+                'string',
+            ],
+            'NS': [
+                'string',
+            ],
+            'BS': [
+                b'bytes',
+            ],
+            'M': {
+                'string': {'... recursive ...'}
+            },
+            'L': [
+                {'... recursive ...'},
+            ],
+            'NULL': True|False,
+            'BOOL': True|False
+        }
+    }
+)`
+  constructor(private hljsLoader: HighlightLoader) { }
   onHighlight(e: HighlightAutoResult) {
     this.response = {
       language: e.language,
